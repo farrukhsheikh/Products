@@ -1,89 +1,97 @@
+<!DOCTYPE HTML>
 <html>
-  <body>
-      <ul id="list"></ul>     
-  <body>
-</html>
+<head>
+<title>Farrukkh Sheikkh - UI UX Designer & Developer</title>
+<meta charset="utf-8" /><meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+<meta name="description" content="HTML & javascript development projects" />
+<meta name="keywords" content="html, javascript, css, html5, html5, css3, responsive" />
+<meta name="apple-mobile-web-app-title" content="Farrukkh" /><meta property="og:site_name" content="Farrukkh" />
+<meta property="og:type" content="article" /><meta property="og:locale" content="en_US" /><meta property="og:title" content="Development by Farrukkh" /><meta property="og:image" content="https://farrukkh.com/fa-logo.png" /><meta property="og:description" content="HTML & JAVASCRIPT DEVELOPMENT" /><meta property="og:url" content="https://farrukkh.com" /><meta property="twitter:card" content="summary_large_image" /><meta property="twitter:site" content="@farrukkhsheikkh" /><meta property="twitter:creator" content="@farrukkhsheikkh" /><link rel="canonical" href="https://farrukkh.com" /> 
+<link rel="icon" href="http://farrukkh.com/fa-logo.png" type="image/x-icon" />
+<link rel="apple-touch-icon-precomposed" href="https://farrukkh.com/fa-logo.png" /> 
 
+</head>
+
+<body class="is-demo">
+    <h1>Farrukkh Sheikkh</h1>
+    <h2>Products</h2>
+   <ul id="list"></ul> 
+<footer>&copy; <a href="https://www.farrukkh.com">farrukkh.com 2020</a></footer>
+<style>
+ @import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700");
+ body{ margin: 0; padding:0; font-family: 'Poppins'; text-align: center; font-weight: 100;}
+ h1{color:#666666!important; font-size: 50px; font-weight: 100;}
+ h2{color:#000000; font-weight: 100;}
+ ul{list-style-type: none;padding:0; font-weight: 100;}
+ li a{ font-size:18px; color:#ffffff; text-decoration: none;  background:#333333; border-radius: 8px; display:table; margin:0 auto; padding:5px 20px}
+ footer{background:#666666; color: #FFFFFF; position: fixed; bottom:0; width:100%; padding:10px 0; font-size: 14px;}
+ footer a {color:#FFFFFF; font-size: 14px;}
+</style>
 
 <script>
-// Filter files by search term match and clean out non recipe files
-const filterFiles = (filter) => {
-  filter = filter.toLowerCase()
-  return (file) => {
-    const filePath = file.path;
-    const fileName = filePath.replace('.md', '').toLowerCase().replace(/-/g, '');
-    const isMarkdown = (/.md$/).test(filePath);
-    const isNotLicense = filePath !== 'LICENSE.md';
-    const isInFilter = filter.split(' ')
-      .every((token) => fileName.indexOf(token.toLowerCase()) !== -1)
-    return isMarkdown && isNotLicense && isInFilter;
-  }
-}
-// Match by closest to start of word then earliest word
-const matchScore = (file, filter) => {
-  const fileWords = file.name.replace('.md', '').toLowerCase().split('-');
-  filter = filter.toLowerCase()
-  let wordIndex;
-  let letterPosition;
-  for (wordIndex = 0; wordIndex < fileWords.length; wordIndex++) {
-    letterPosition = fileWords[wordIndex].indexOf(filter)
-    if (letterPosition > -1) break;
-  }
-  if (letterPosition < 0) {
-    letterPosition = 100;
-  }
-  return wordIndex + letterPosition * 100;
-}
-// Sort files by best match
-const sortFiles = (filter) => {
-  filter = filter.toLowerCase()
-  return (fileA, fileB) => {
-    return matchScore(fileA, filter) < matchScore(fileB, filter) ? -1 : 1;
-  }
-}
-// Render search result list
-const updateList = (data, filter = '') => {
-  let htmlString = '';
-  for (let file of data.filter(filterFiles(filter)).sort(sortFiles(filter))) {
-    const fileName = file.path.replace('.md', '');
-    const fileDisplayName = fileName.split('-').join(' ');
-    htmlString += `<li><a href="${fileName}">${fileDisplayName}</a></li>`;
-  }
-  document.getElementById('list').innerHTML = htmlString;
-}
-// Quick navigate to file if perfect match
-const navigateToFile = (data, filter = '') => {
-  files = data.filter(filterFiles(filter));
-  if (files.length === 1) {
-    const fileName = files[0].path.replace('.md', '');
-    document.location = fileName;
-  }
-}
-(async () => {
-  // Get GitHub repository file info
-  const response = await fetch('https://api.github.com/repos/farrukhsheikh/Products/contents');
-  const data = await response.json();
-  // Initialize search fields and results
-  const search_form = document.getElementById('search_form');
-  const search_input = document.getElementById('search_input');
-  const search_value = decodeURIComponent(document.location.search.replace('?', '').replace(/\+/g, ' '));
-  search_input.value = search_value;
-  navigateToFile(data, search_value);
-  updateList(data, search_value);
-  // Configure search box events
-  search_form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    navigateToFile(data, search_input.value);
-  })
-  search_input.addEventListener('input', (event) => {
-    updateList(data, event.target.value);
-  })
-  document.addEventListener('keypress', (event) => {
-    search_input.focus()
-  })
-})()
-// Register service worker
-if (navigator.serviceWorker && !navigator.serviceWorker.controller) {
-  navigator.serviceWorker.register('https://www.timetler.com/recipes/serviceworker.js');
-}
-</script>
+    // Filter files by search term match and clean out non recipe files
+    const filterFiles = (filter) => {
+      filter = filter.toLowerCase()
+      return (file) => {
+        const filePath = file.path;
+        const fileName = filePath.replace('.md', '').toLowerCase().replace(/-/g, '');
+        const isMarkdown = (/.md$/).test(filePath);
+        const isNotLicense = filePath !== 'LICENSE.md';
+        const isInFilter = filter.split(' ')
+          .every((token) => fileName.indexOf(token.toLowerCase()) !== -1)
+        return isMarkdown && isNotLicense && isInFilter;
+      }
+    }
+    // Match by closest to start of word then earliest word
+    const matchScore = (file, filter) => {
+      const fileWords = file.name.replace('.md', '').toLowerCase().split('-');
+      filter = filter.toLowerCase()
+      let wordIndex;
+      let letterPosition;
+      for (wordIndex = 0; wordIndex < fileWords.length; wordIndex++) {
+        letterPosition = fileWords[wordIndex].indexOf(filter)
+        if (letterPosition > -1) break;
+      }
+      if (letterPosition < 0) {
+        letterPosition = 100;
+      }
+      return wordIndex + letterPosition * 100;
+    }
+    // Sort files by best match
+    const sortFiles = (filter) => {
+      filter = filter.toLowerCase()
+      return (fileA, fileB) => {
+        return matchScore(fileA, filter) < matchScore(fileB, filter) ? -1 : 1;
+      }
+    }
+    // Render search result list
+    const updateList = (data, filter = '') => {
+      let htmlString = '';
+      for (let file of data.filter(filterFiles(filter)).sort(sortFiles(filter))) {
+        const fileName = file.path.replace('.md', '');
+        const fileDisplayName = fileName.split('-').join(' ');
+        htmlString += `<li><a href="${fileName}">${fileDisplayName}</a></li>`;
+      }
+      document.getElementById('list').innerHTML = htmlString;
+    }
+    // Quick navigate to file if perfect match
+    const navigateToFile = (data, filter = '') => {
+      files = data.filter(filterFiles(filter));
+      if (files.length === 1) {
+        const fileName = files[0].path.replace('.md', '');
+        document.location = fileName;
+      }
+    }
+    (async () => {
+      // Get GitHub repository file info
+      const response = await fetch('https://api.github.com/repos/farrukhsheikh/Products/contents');
+      const data = await response.json();
+    })
+    // Register service worker
+    if (navigator.serviceWorker && !navigator.serviceWorker.controller) {
+      navigator.serviceWorker.register('serviceworker.js');
+    }
+    </script>
+
+</body></html>
